@@ -1,0 +1,10 @@
+@{
+  Layout = "_Layout";
+}
+
+<h2>@Model.GetName()</h2>
+<h3>Country Code: @Model.GetCountryCode()</h3>
+<h3>Population: @Model.GetPopulation()</h3>
+
+<a href="/City/Display"><button type="button" name="button">View All Cities</button></a>
+<a href="/"><button type="button" name="button">View Countries</button></a>

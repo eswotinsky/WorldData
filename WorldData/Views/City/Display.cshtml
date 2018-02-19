@@ -1,0 +1,10 @@
+@{
+  Layout = "_Layout";
+}
+
+<ul>
+  @foreach (var city in Model)
+  {
+    <li><a href="/City/Info/@city.GetId()">@city.GetName()</a></li>
+  }
+</ul>

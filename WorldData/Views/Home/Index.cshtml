@@ -1,0 +1,49 @@
+@{
+  Layout = "_Layout";
+}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <form action="/Country/Find" method="post" name="continentForm">
+        <div class="form-group">
+          <label for="continent">Filter by Continent</label>
+          <select id="continent" name="continent">
+            <option value="North America">North America</option>
+            <option value="South America">South America</option>
+            <option value="Europe">Europe</option>
+            <option value="Africa">Africa</option>
+            <option value="Oceania">Oceania</option>
+            <option value="Asia">Asia</option>
+            <option value="Antarctica">Antarctica</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="pop-min">Population (min)</label>
+          <input type="text" name="pop-min" value="0">
+        </div>
+        <div class="form-group">
+          <label for="pop-max">Population (max)</label>
+          <input type="text" name="pop-max" value="1400000000">
+        </div>
+        <button type="submit" class="btn">Search</button>
+      </form>
+    </div>
+  </div>
+  @if (Model.Count != 239)
+  {
+  <div class="row">
+    <div class="col-md-12">
+      <a href="../"><button type="button" class="btn">View all countries</button></a>
+    </div>
+  </div>
+  }
+  <a href="../City/Display"><button type="button" class="btn">View cities</button></a>
+</div>
+
+<ul>
+  @foreach (var country in Model)
+  {
+    <li><a href="~/Country/Info/@country.GetId()">@country.GetName()</a></li>
+  }
+</ul>
