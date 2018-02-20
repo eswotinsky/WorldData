@@ -27,5 +27,25 @@ namespace WorldDataProject.Controllers
 
       return View("../Home/Index", countries);
     }
+
+    [HttpGet("Country/Form")]
+    public ActionResult Form()
+    {
+      return View();
+    }
+
+    [HttpPost("Country/Create")]
+    public ActionResult Create()
+    {
+      string code = Request.Form["code"]; 
+      string name = Request.Form["name"];
+      string continent = Request.Form["continent"];
+      int population = Int32.Parse(Request.Form["population"]);
+
+      Country myCountry = new Country(code, name, continent, population, 0);
+      myCountry.Save();
+      return View("Info", myCountry);
+
+    }
   }
 }

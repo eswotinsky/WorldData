@@ -11,15 +11,22 @@ namespace WorldDataProject.Models
     private string _name;
     private string _continent;
     private int _population;
+    private string _code;
 
     private static List<Country> _countries = new List<Country>();
 
-    public Country(string name, string continent, int population, int index)
+    public Country(string code, string name, string continent, int population, int index)
     {
       _name = name;
       _continent = continent;
       _population = population;
       _id = index;
+      _code = code;
+    }
+
+    public string GetCode()
+    {
+      return _code;
     }
 
     public string GetName()
@@ -57,10 +64,11 @@ namespace WorldDataProject.Models
       MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
       while (rdr.Read())
       {
+        string code = rdr.GetString(0);
         string name = rdr.GetString(1);
         string continent = rdr.GetString(2);
         int population = rdr.GetInt32(6);
-        allCountries.Add(new Country(name, continent, population, allCountries.Count));
+        allCountries.Add(new Country(code, name, continent, population, allCountries.Count));
       }
       conn.Close();
       if (conn != null)
@@ -68,9 +76,7 @@ namespace WorldDataProject.Models
         conn.Dispose();
       }
       _countries.Clear();
-      Console.WriteLine(_countries.Count);
       _countries = allCountries;
-      Console.WriteLine(_countries.Count);
       return allCountries;
     }
 
@@ -84,10 +90,11 @@ namespace WorldDataProject.Models
       MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
       while (rdr.Read())
       {
+        string code = rdr.GetString(0);
         string name = rdr.GetString(1);
         string continent = rdr.GetString(2);
         int population = rdr.GetInt32(6);
-        allCountries.Add(new Country(name, continent, population, allCountries.Count));
+        allCountries.Add(new Country(code, name, continent, population, allCountries.Count));
       }
       conn.Close();
       if (conn != null)
@@ -97,28 +104,43 @@ namespace WorldDataProject.Models
       _countries = allCountries;
       return allCountries;
     }
-    //
-    // public static List<Country> FindPopulation(int popMin, int popMax)
-    // {
-    //   List<Country> allCountries = new List<Country>(){};
-    //   MySqlConnection conn = DB.Connection();
-    //   conn.Open();
-    //   MySqlCommand cmd = conn.CreateCommand() as MySqlCommand;
-    //   cmd.CommandText = @"SELECT * FROM country WHERE population BETWEEN " + popMin + " AND " + popMax + ";";
-    //   MySqlDataReader rdr = cmd.ExecuteReader() as MySqlDataReader;
-    //   while (rdr.Read())
-    //   {
-    //     string name = rdr.GetString(1);
-    //     string continent = rdr.GetString(2);
-    //     int population = rdr.GetInt32(6);
-    //     allCountries.Add(new Country(name, continent, population, allCountries.Count));
-    //   }
-    //   conn.Close();
-    //   if (conn != null)
-    //   {
-    //     conn.Dispose();
-    //   }
-    //   return allCountries;
-    // }
+
+    public void Save()
+    {
+      MySqlConnection conn = DB.Connection();
+      conn.Open();
+
+      var cmd = conn.CreateCommand() as MySqlCommand;
+      cmd.CommandText = @"INSERT INTO country (code, name, continent, population) VALUES (@code, @name, @continent, @population);";
+
+      MySqlParameter code = new MySqlParameter();
+      code.ParameterName = "@code";
+      code.Value = this._code;
+      cmd.Parameters.Add(code);
+
+      MySqlParameter name = new MySqlParameter();
+      name.ParameterName = "@name";
+      name.Value = this._name;
+      cmd.Parameters.Add(name);
+
+      MySqlParameter continent = new MySqlParameter();
+      continent.ParameterName = "@continent";
+      continent.Value = this._continent;
+      cmd.Parameters.Add(continent);
+
+      MySqlParameter population = new MySqlParameter();
+      population.ParameterName = "@population";
+      population.Value = this._population;
+      cmd.Parameters.Add(population);
+
+      cmd.ExecuteNonQuery();
+
+      conn.Close();
+      if (conn != null)
+      {
+        conn.Dispose();
+      }
+
+    }
   }
 }

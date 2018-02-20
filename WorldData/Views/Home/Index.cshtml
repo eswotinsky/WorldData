@@ -39,9 +39,12 @@
   </div>
   }
   <a href="../City/Display"><button type="button" class="btn">View cities</button></a>
+  <a href="/Country/Form"><button type="button" name="btn">Create a new Country!</button></a>
 </div>
 
 <ul>
+
+
   @foreach (var country in Model)
   {
     <li><a href="~/Country/Info/@country.GetId()">@country.GetName()</a></li>

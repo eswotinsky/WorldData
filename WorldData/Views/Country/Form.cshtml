@@ -1,0 +1,29 @@
+@{
+  Layout = "_Layout";
+}
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <form class="" action="/Country/Create" method="post">
+        <div class="form-group">
+          <label for="name">Country Name: </label>
+          <input type="text" id="name" name="name">
+        </div>
+        <div class="form-group">
+          <label for="code">Country Code: </label>
+          <input type="text" name="code" id="code">
+        </div>
+        <div class="form-group">
+          <label for="continent">Continent: </label>
+          <input type="text" name="continent" id="continent">
+        </div>
+        <div class="form-group">
+          <label for="population">Population: </label>
+          <input type="text" name="population" value="population">
+        </div>
+        <button type="submit" class="btn">Create New Country</button>
+      </form>
+    </div>
+  </div>
+</div>
